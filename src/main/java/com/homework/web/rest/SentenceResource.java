@@ -1,6 +1,10 @@
 package com.homework.web.rest;
 
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+
 import com.homework.service.SentenceService;
 
 import org.slf4j.Logger;
@@ -30,7 +34,14 @@ public class SentenceResource {
     private SentenceService sentenceService;
 
     @GetMapping("/duplicates")
+    @ApiOperation(value = "Finds all words that are duplicated in the sentence and return an array of those words",
+            notes = "A sentence is minimally defined as a word or group of words. "
+                    + "We consider a word to be a sequence of letters (i.e.: a-zA-Z ) "
+                    + "delimited by a space or non-letter character.\n"
+                    + "A repeated word is a case-sensitive word that appears more than once in a sentence (e.g.: 'had' ≠ 'Had').\n"
+                    + "Because substrings of a word are not delimited, they are not considered to be words.")
     public ResponseEntity<Collection<String>> getDuplicatedWords(
+            @ApiParam(defaultValue = "How much wood could a woodchuck chuck if a woodchuck could chuck wood?")
             @RequestParam(value = "sentence", defaultValue = "") String sentence) {
         LOG.debug("Request to find duplicates in sentence [{}]", sentence);
         try {
